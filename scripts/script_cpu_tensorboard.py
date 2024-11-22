@@ -27,6 +27,9 @@ output, attention_weights = attention_layer(input_tokens)
 
 #result
 with profiler.profile(activities=[ProfilerActivity.CPU],profile_memory=True, record_shapes=True, on_trace_ready=profiler.tensorboard_trace_handler( '../log/attention_cpu')) as prof:
+#with profiler.profile(activities=[ProfilerActivity.CPU],profile_memory=True, on_trace_ready=profiler.tensorboard_trace_handler( '../log/attention_cpu')) as prof:
    output, attention_weights = attention_layer(input_tokens)
 
-print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
+print(prof.key_averages(group_by_input_shape=True).table(sort_by="cpu_time_total"))
+#print(prof.key_averages(group_by_input_shape=True).table(sort_by="cpu_time_total", row_limit=10))
+#print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
